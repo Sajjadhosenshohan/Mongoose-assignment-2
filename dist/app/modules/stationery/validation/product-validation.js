@@ -10,5 +10,5 @@ exports.productSchemaValidate = zod_1.z.object({
     description: zod_1.z.string().min(1, 'Description is required'),
     quantity: zod_1.z.number().min(0, 'Quantity cannot be negative'),
     inStock: zod_1.z.boolean().default(true),
+    isDeleted: zod_1.z.boolean()
 });
-// export type ProductInput = z.infer<typeof productSchema>;

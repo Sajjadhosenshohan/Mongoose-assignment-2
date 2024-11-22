@@ -45,12 +45,10 @@ const updateAProductService = async (productId:string, updateData: StationeryPro
     return product
 }
 
-// // delete a student info by id
-// const deleteStudentInfo = async (studentId:string) =>{
-//     // console.log(studentId)
-//     const result  = await StudentModel.updateOne({id: studentId}, {isDeleted: true})
-//     // console.log('service ', result)
-//     return result
-// }
+// delete a product info by id
+const deleteProductService = async (productId:string) =>{
+    const result  = await ProductModel.deleteOne({_id: productId}, {isDeleted: true})
+    return result
+}
 
-export const product_Services = {createProductService, getAllProductService,getAProductService,updateAProductService}
+export const product_Services = {createProductService, getAllProductService,getAProductService,updateAProductService,deleteProductService}

@@ -42,11 +42,9 @@ const updateAProductService = (productId, updateData) => __awaiter(void 0, void 
     const product = yield product_model_1.ProductModel.findByIdAndUpdate(productId, updateData, { new: true, runValidators: true });
     return product;
 });
-// // delete a student info by id
-// const deleteStudentInfo = async (studentId:string) =>{
-//     // console.log(studentId)
-//     const result  = await StudentModel.updateOne({id: studentId}, {isDeleted: true})
-//     // console.log('service ', result)
-//     return result
-// }
-exports.product_Services = { createProductService, getAllProductService, getAProductService, updateAProductService };
+// delete a product info by id
+const deleteProductService = (productId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.deleteOne({ _id: productId }, { isDeleted: true });
+    return result;
+});
+exports.product_Services = { createProductService, getAllProductService, getAProductService, updateAProductService, deleteProductService };

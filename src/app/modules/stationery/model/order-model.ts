@@ -73,4 +73,4 @@ const orderSchema = new Schema<StationeryOrder>(
 //   ]);
 // };
 
-export const Order = mongoose.model<StationeryOrder>('Order', orderSchema);
+export const OrderModel = mongoose.model<StationeryOrder>('Order', orderSchema);

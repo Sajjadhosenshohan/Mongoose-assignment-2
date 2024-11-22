@@ -105,29 +105,36 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-//   export const deleteProduct = async (req: Request, res: Response) => {
-//     try {
-//       const { productId } = req.params;
-//       const product = await Product.findByIdAndDelete(productId);
-//       if (!product) {
-//         return res.status(404).json({
-//           message: 'Product not found',
-//           success: false,
-//           error: 'Resource not found',
-//         });
-//       }
-//       res.status(200).json({
-//         message: 'Product deleted successfully',
-//         status: true,
-//         data: {},
-//       });
-//     } catch (error: any) {
-//       res.status(400).json({
-//         message: 'Failed to delete product',
-//         success: false,
-//         error: error.message,
-//         stack: error.stack,
-//       });
-//     }
-//   };
-exports.product_Controller = { createProductController, getAllProducts, getProductById, updateProduct };
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const product = yield product_service_1.product_Services.deleteProductService(productId);
+        if (!product) {
+            return res.status(404).json({
+                message: 'Product not found',
+                success: false,
+                error: 'Resource not found',
+            });
+        }
+        res.status(200).json({
+            message: 'Product deleted successfully',
+            status: true,
+            data: {},
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            message: 'Failed to delete product',
+            success: false,
+            error: error.message,
+            stack: error.stack,
+        });
+    }
+});
+exports.product_Controller = {
+    createProductController,
+    getAllProducts,
+    getProductById,
+    updateProduct,
+    deleteProduct
+};

@@ -3,6 +3,7 @@ import { Application, Request, Response } from 'express';
 import express from 'express';
 import cors from 'cors';
 import { productRoutes } from './app/modules/stationery/routes/product-route';
+import { orderRoutes } from './app/modules/stationery/routes/order-route';
 const app: Application = express();
 
 //parser
@@ -11,7 +12,7 @@ app.use(cors());
 
 // // routes
 app.use('/api/products', productRoutes);
-// app.use('/api/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);
 
 
 app.get('/', (req: Request, res: Response) => {

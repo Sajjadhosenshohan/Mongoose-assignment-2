@@ -36,6 +36,10 @@ const productSchema = new Schema<StationeryProduct>(
       type: Boolean,
       default: true,
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
   },
   {
     timestamps: true,
@@ -68,5 +72,21 @@ const productSchema = new Schema<StationeryProduct>(
 // productSchema.statics.findLowStock = function(threshold: number = 10) {
 //   return this.find({ quantity: { $lte: threshold } });
 // };
+
+productSchema.pre('find', function(next){
+  this.find({isDeleted: {$ne: true}})
+  next()
+})
+
+// query middleware 
+productSchema.pre('findOne', function(next){
+  this.find({isDeleted: {$ne: true}})
+  next()
+})
+
+productSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({$match: {isDeleted: {$ne: true}}})
+  next()
+})
 
 export const ProductModel = model<StationeryProduct>('Product', productSchema);

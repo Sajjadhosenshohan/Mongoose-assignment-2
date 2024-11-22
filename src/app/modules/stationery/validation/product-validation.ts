@@ -8,6 +8,5 @@ export const productSchemaValidate = z.object({
   description: z.string().min(1, 'Description is required'),
   quantity: z.number().min(0, 'Quantity cannot be negative'),
   inStock: z.boolean().default(true),
+  isDeleted: z.boolean()
 });
-
-// export type ProductInput = z.infer<typeof productSchema>;
