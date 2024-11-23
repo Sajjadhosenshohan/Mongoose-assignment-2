@@ -1,9 +1,9 @@
 
-import { Application, Request, Response } from 'express';
+import { Application, NextFunction, Request, Response } from 'express';
 import express from 'express';
 import cors from 'cors';
-import { productRoutes } from './app/modules/stationery/routes/product-route';
-import { orderRoutes } from './app/modules/stationery/routes/order-route';
+import { productRoutes } from './app/modules/products/product-route';
+import { orderRoutes } from './app/modules/orders/order-route';
 const app: Application = express();
 
 //parser
@@ -19,4 +19,31 @@ app.get('/', (req: Request, res: Response) => {
   console.log("server is running")
   res.send('Hello World!');
 });
+
+
+//custom error handler
+app.all('*', (req: Request, res: Response) => {
+  res.status(400).json({
+    success: false,
+    message: 'Something went wrong',
+  });
+});
+
+//global error handler
+interface ErrorWithStatus extends Error {
+  status?: number;
+}
+
+app.use(
+  (error: ErrorWithStatus, req: Request, res: Response, next: NextFunction) => {
+    if (error) {
+      res.status(400).json({
+        success: false,
+        message:'Something went wrong',
+      });
+    } else {
+      next();
+    }
+  },
+);
 export default app;
