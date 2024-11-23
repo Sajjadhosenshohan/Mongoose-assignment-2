@@ -28,7 +28,6 @@ A robust REST API for managing a stationery shop's inventory and orders, built w
 - Dotenv
 
 ## 🏗️ Project Structure
-## 🏗️ Project Structure
 
 ```
 src/
