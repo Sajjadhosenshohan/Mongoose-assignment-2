@@ -181,3 +181,15 @@ Example error response:
 ## 👥 Authors
 
 - mdshohansajjad@gmail.com
+
+
+1. Create a Stationery Product
+2. Get All Stationery Products
+3. Get a Specific Stationery Product
+4. Update a Stationery Product
+5. Delete a Stationery Product
+
+// order
+6. Order a Stationery Product
+7. Calculate Revenue from Orders (Aggregation)
+

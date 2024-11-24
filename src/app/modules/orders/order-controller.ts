@@ -4,25 +4,27 @@ import { OrderModel } from './order-model';
 
 
 
-const createOrder = async (req: Request, res: Response): Promise<any> => {
+const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
     
     const product = await order_Services.createOrderService(orderData);
     if (!product) {
-      return res.status(404).json({
+       res.status(404).json({
         message: 'Product not found',
         success: false,
         error: 'Resource not found',
-      });
+      })
+      return 
     }
 
     if (product.quantity < orderData.quantity) {
-      return res.status(400).json({
+      res.status(400).json({
         message: 'Insufficient stock',
         success: false,
         error: 'Validation Error',
-      });
+      })
+      return
     }
 
     const order = await OrderModel.create(orderData);
@@ -36,13 +38,15 @@ const createOrder = async (req: Request, res: Response): Promise<any> => {
       status: true,
       data: order,
     });
-  } catch (error: any) {
-    res.status(400).json({
-      message: 'Failed to create order',
-      success: false,
-      error: error.message,
-      stack: error.stack,
-    });
+  } catch (error: unknown) {
+      if(error instanceof Error){
+        res.status(400).json({
+          message: 'Failed to create order',
+          success: false,
+          error: error.message,
+          stack: error.stack,
+        });
+      }
   }
 };
 
@@ -61,13 +65,17 @@ const getRevenue = async (req: Request, res: Response) => {
           totalRevenue: revenue
         }
       });
-    } catch (error: any) {
-      res.status(400).json({
-        message: 'Failed to calculate revenue',
-        success: false,
-        error: error.message,
-        stack: error.stack
-      });
+    }
+      catch (error:unknown) {
+        if(error instanceof Error){
+          res.status(400).json({
+            message: 'Failed to calculate revenue',
+            success: false,
+            error: error.message,
+            stack: error.stack
+          });
+        }
+     
     }
   };
 

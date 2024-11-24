@@ -17,18 +17,20 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const orderData = req.body;
         const product = yield order_service_1.order_Services.createOrderService(orderData);
         if (!product) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: 'Product not found',
                 success: false,
                 error: 'Resource not found',
             });
+            return;
         }
         if (product.quantity < orderData.quantity) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: 'Insufficient stock',
                 success: false,
                 error: 'Validation Error',
             });
+            return;
         }
         const order = yield order_model_1.OrderModel.create(orderData);
         // Update product quantity
@@ -41,12 +43,14 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to create order',
-            success: false,
-            error: error.message,
-            stack: error.stack,
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to create order',
+                success: false,
+                error: error.message,
+                stack: error.stack,
+            });
+        }
     }
 });
 const getRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -62,12 +66,14 @@ const getRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to calculate revenue',
-            success: false,
-            error: error.message,
-            stack: error.stack
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to calculate revenue',
+                success: false,
+                error: error.message,
+                stack: error.stack
+            });
+        }
     }
 });
 exports.order_Controller = { createOrder, getRevenue };

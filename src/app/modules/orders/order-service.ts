@@ -3,13 +3,12 @@ import { StationeryOrder } from "./order-interface";
 import { OrderModel } from "./order-model";
 
 
-
-const createOrderService = async (orderData: StationeryOrder)=>{
-    const result = await ProductModel.findById(orderData.product);
-    return result;
+const createOrderService = async (orderData: StationeryOrder) => {
+  const product = await ProductModel.findById(orderData.product);
+  return product;
 }
 
-const getOrderRevenueService = async ()=>{
+const getOrderRevenueService = async () =>{
     const result = await OrderModel.aggregate([
         {
           $group: {
@@ -19,8 +18,6 @@ const getOrderRevenueService = async ()=>{
         },
         { $project: { totalRevenue: 1 } },
     ]);
-
-    console.log(result,23)
 
     const  revenue = result[0]?.totalRevenue || 0
     return revenue; 

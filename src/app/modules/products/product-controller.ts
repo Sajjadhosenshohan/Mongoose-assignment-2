@@ -17,13 +17,15 @@ const createProductController = async (req: Request, res: Response) => {
       success: true,
       data: product,
     });
-  } catch (error: any) {
-    res.status(400).json({
-      message: 'Failed to create product',
-      success: false,
-      error: error.message,
-      stack: error.stack,
-    });
+  } catch (error:unknown) {
+    if(error instanceof Error){
+      res.status(400).json({
+        message: 'Failed to create product',
+        success: false,
+        error: error.message,
+        stack: error.stack,
+      });
+    }
   }
 };
 
@@ -38,27 +40,30 @@ const getAllProducts = async (req: Request, res: Response) => {
         status: true,
         data: products,
       });
-    } catch (error: any) {
-      res.status(400).json({
-        message: 'Failed to retrieve products',
-        success: false,
-        error: error.message,
-        stack: error.stack,
-      });
+    } catch (error:unknown) {
+      if(error instanceof Error){
+        res.status(400).json({
+          message: 'Failed to retrieve products',
+          success: false,
+          error: error.message,
+          stack: error.stack,
+        });
+      }
     }
 };
 
 
-const getProductById = async (req: Request, res: Response): Promise<any> => {
+const getProductById = async (req: Request, res: Response)=> {
     try {
       const { productId } = req.params;
       const product = await product_Services.getAProductService(productId)
       if (!product) {
-        return res.status(404).json({
+        res.status(404).json({
           message: 'Product not found',
           success: false,
           error: 'Resource not found',
         });
+        return
       }
   
       res.status(200).json({
@@ -66,17 +71,19 @@ const getProductById = async (req: Request, res: Response): Promise<any> => {
         status: true,
         data: product,
       });
-    } catch (error: any) {
-      res.status(400).json({
-        message: 'Failed to retrieve product',
-        success: false,
-        error: error.message,
-        stack: error.stack,
-      });
+    } catch (error:unknown) {
+      if(error instanceof Error){
+        res.status(400).json({
+          message: 'Failed to retrieve product',
+          success: false,
+          error: error.message,
+          stack: error.stack,
+        });
+      }
     }
   };
   
-const updateProduct = async (req: Request, res: Response): Promise<any> => {
+const updateProduct = async (req: Request, res: Response)=> {
     try {
       const { productId } = req.params;
       const updateData = req.body;
@@ -84,11 +91,12 @@ const updateProduct = async (req: Request, res: Response): Promise<any> => {
         const product = await product_Services.updateAProductService(productId,updateData)
 
       if (!product) {
-        return res.status(404).json({
+        res.status(404).json({
           message: 'Product not found',
           success: false,
           error: 'Resource not found',
         });
+        return
       }
   
       res.status(200).json({
@@ -96,28 +104,30 @@ const updateProduct = async (req: Request, res: Response): Promise<any> => {
         status: true,
         data: product,
       });
-    } catch (error: any) {
+    } catch (error:unknown) {
+      if(error instanceof Error){
       res.status(400).json({
         message: 'Failed to update product',
         success: false,
         error: error.message,
         stack: error.stack,
       });
-    }
+    }}
   };
   
-const deleteProduct = async (req: Request, res: Response): Promise<any> => {
+const deleteProduct = async (req: Request, res: Response)=> {
     try {
       const { productId } = req.params;
         
       const product = await product_Services.deleteProductService(productId);
 
       if (!product) {
-        return res.status(404).json({
+        res.status(404).json({
           message: 'Product not found',
           success: false,
           error: 'Resource not found',
         });
+        return
       }
   
       res.status(200).json({
@@ -125,15 +135,17 @@ const deleteProduct = async (req: Request, res: Response): Promise<any> => {
         status: true,
         data: {},
       });
-    } catch (error: any) {
-      res.status(400).json({
-        message: 'Failed to delete product',
-        success: false,
-        error: error.message,
-        stack: error.stack,
-      });
+    } catch (error:unknown) {
+      if(error instanceof Error){
+        res.status(400).json({
+          message: 'Failed to delete product',
+          success: false,
+          error: error.message,
+          stack: error.stack,
+        });
+      }
     }
-  };
+};
 
 export const product_Controller = {
     createProductController,

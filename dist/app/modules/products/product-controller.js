@@ -25,12 +25,14 @@ const createProductController = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to create product',
-            success: false,
-            error: error.message,
-            stack: error.stack,
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to create product',
+                success: false,
+                error: error.message,
+                stack: error.stack,
+            });
+        }
     }
 });
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,12 +46,14 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to retrieve products',
-            success: false,
-            error: error.message,
-            stack: error.stack,
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to retrieve products',
+                success: false,
+                error: error.message,
+                stack: error.stack,
+            });
+        }
     }
 });
 const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,11 +61,12 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const { productId } = req.params;
         const product = yield product_service_1.product_Services.getAProductService(productId);
         if (!product) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: 'Product not found',
                 success: false,
                 error: 'Resource not found',
             });
+            return;
         }
         res.status(200).json({
             message: 'Product retrieved successfully',
@@ -70,12 +75,14 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to retrieve product',
-            success: false,
-            error: error.message,
-            stack: error.stack,
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to retrieve product',
+                success: false,
+                error: error.message,
+                stack: error.stack,
+            });
+        }
     }
 });
 const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -84,11 +91,12 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const updateData = req.body;
         const product = yield product_service_1.product_Services.updateAProductService(productId, updateData);
         if (!product) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: 'Product not found',
                 success: false,
                 error: 'Resource not found',
             });
+            return;
         }
         res.status(200).json({
             message: 'Product updated successfully',
@@ -97,12 +105,14 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to update product',
-            success: false,
-            error: error.message,
-            stack: error.stack,
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to update product',
+                success: false,
+                error: error.message,
+                stack: error.stack,
+            });
+        }
     }
 });
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -110,11 +120,12 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const { productId } = req.params;
         const product = yield product_service_1.product_Services.deleteProductService(productId);
         if (!product) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: 'Product not found',
                 success: false,
                 error: 'Resource not found',
             });
+            return;
         }
         res.status(200).json({
             message: 'Product deleted successfully',
@@ -123,12 +134,14 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: 'Failed to delete product',
-            success: false,
-            error: error.message,
-            stack: error.stack,
-        });
+        if (error instanceof Error) {
+            res.status(400).json({
+                message: 'Failed to delete product',
+                success: false,
+                error: error.message,
+                stack: error.stack,
+            });
+        }
     }
 });
 exports.product_Controller = {
