@@ -13,8 +13,8 @@ exports.order_Services = void 0;
 const product_model_1 = require("../products/product-model");
 const order_model_1 = require("./order-model");
 const createOrderService = (orderData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.ProductModel.findById(orderData.product);
-    return result;
+    const product = yield product_model_1.ProductModel.findById(orderData.product);
+    return product;
 });
 const getOrderRevenueService = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -27,7 +27,6 @@ const getOrderRevenueService = () => __awaiter(void 0, void 0, void 0, function*
         },
         { $project: { totalRevenue: 1 } },
     ]);
-    console.log(result, 23);
     const revenue = ((_a = result[0]) === null || _a === void 0 ? void 0 : _a.totalRevenue) || 0;
     return revenue;
 });
